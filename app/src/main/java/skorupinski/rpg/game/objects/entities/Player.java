@@ -5,14 +5,12 @@ import skorupinski.rpg.core.events.keyboard.Keyboard;
 import skorupinski.rpg.core.game.Game;
 import skorupinski.rpg.core.map.ChunkMap;
 import skorupinski.rpg.core.math.Vector2;
-import skorupinski.rpg.game.utils.graphics.GraphicsType;
+import skorupinski.rpg.game.objects.entities.utils.Statistics;
 
 public class Player extends Entity {
 
     public Player(Vector2 position, Vector2 size, Statistics stats, ChunkMap map) {
         super(position, size, stats, map);
-
-        objectState = GraphicsType.WALKING;
     }
 
     private void handleUserInput() {

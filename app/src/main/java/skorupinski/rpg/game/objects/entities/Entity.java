@@ -4,6 +4,7 @@ import skorupinski.rpg.core.map.ChunkMap;
 import skorupinski.rpg.core.math.Vector2;
 import skorupinski.rpg.core.utils.Direction4;
 import skorupinski.rpg.game.objects.GameObject;
+import skorupinski.rpg.game.objects.entities.utils.Statistics;
 import skorupinski.rpg.game.utils.graphics.GraphicsType;
 
 public abstract class Entity extends GameObject {
@@ -18,6 +19,7 @@ public abstract class Entity extends GameObject {
         this.stats = stats;
 
         move = new Vector2();
+        objectState = GraphicsType.STANDING;
     }
 
     protected Direction4 calculateDirection(Vector2 move) {

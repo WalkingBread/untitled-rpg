@@ -1,4 +1,4 @@
-package skorupinski.rpg.game.objects.entities;
+package skorupinski.rpg.game.objects.entities.utils;
 
 public class Statistics {
     

@@ -6,7 +6,7 @@ import skorupinski.rpg.core.math.Vector2;
 import skorupinski.rpg.core.math.Vector2i;
 import skorupinski.rpg.core.rendering.Camera;
 import skorupinski.rpg.game.objects.entities.Player;
-import skorupinski.rpg.game.objects.entities.Statistics;
+import skorupinski.rpg.game.objects.entities.utils.Statistics;
 
 public class World {
     
