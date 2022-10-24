@@ -7,11 +7,11 @@ import skorupinski.rpg.core.geometry.shapes.Rectangle;
 import skorupinski.rpg.core.graphics.CoreGraphics;
 import skorupinski.rpg.core.graphics.Painter;
 import skorupinski.rpg.core.graphics.sprites.Sprite;
-import skorupinski.rpg.core.map.ChunkMap;
 import skorupinski.rpg.core.math.Vector2;
 import skorupinski.rpg.core.rendering.Camera;
 import skorupinski.rpg.core.rendering.Renderable;
 import skorupinski.rpg.core.utils.Direction4;
+import skorupinski.rpg.game.World;
 import skorupinski.rpg.game.utils.graphics.AnimationGroup;
 import skorupinski.rpg.game.utils.graphics.GraphicsManager;
 import skorupinski.rpg.game.utils.graphics.GraphicsType;
@@ -20,7 +20,7 @@ public abstract class GameObject extends Renderable<Global> {
 
     protected Vector2 size;
 
-    protected ChunkMap map;
+    protected World world;
 
     protected GraphicsManager gm;
 
@@ -30,11 +30,11 @@ public abstract class GameObject extends Renderable<Global> {
 
     protected Direction4 direction;
 
-    public GameObject(Vector2 position, Vector2 size, ChunkMap map) {
+    public GameObject(Vector2 position, Vector2 size, World world) {
         super(new Global(position));
 
         this.size = size;
-        this.map = map;
+        this.world = world;
 
         direction = Direction4.SOUTH;
 
@@ -87,6 +87,7 @@ public abstract class GameObject extends Renderable<Global> {
 
     public void move(Vector2 distance) {
         position.set(position.vector().add(distance));
+        
     }
     
 }

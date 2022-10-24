@@ -1,18 +1,58 @@
 package skorupinski.rpg.game.objects.entities;
 
-import skorupinski.rpg.core.map.ChunkMap;
+import java.util.ArrayList;
+import java.util.List;
+
 import skorupinski.rpg.core.math.Vector2;
+import skorupinski.rpg.game.World;
 import skorupinski.rpg.game.objects.entities.utils.Statistics;
 
-public class Mob extends Entity {
+public abstract class Mob extends Entity {
+
+    protected static final float DEFAULT_TRIGGER_RANGE = 500;
 
     protected Entity target = null;
 
-    public Mob(Vector2 position, Vector2 size, Statistics stats, ChunkMap map) {
-        super(position, size, stats, map);
+    protected float triggerRange = DEFAULT_TRIGGER_RANGE;
 
+    protected List<Class<? extends Entity>> hostileTowards; 
+
+    public Mob(Vector2 position, Vector2 size, Statistics stats, World world) {
+        super(position, size, stats, world);
+
+        hostileTowards = new ArrayList<>();
+        hostileTowards.add(Player.class);
     }
 
+    private void detectTargets() {
+        for(Entity en : world.getOtherEntities(this)) {
+            if(en.getPosition().vector().distanceFrom(getPosition().vector()) < triggerRange) {
+                if(hostileTowards.contains(en.getClass())) {
+                    target = en;
+                    break;
+                }
+            }
+        }
+    }
 
+    protected abstract void targetBehaviour(Entity target);
+
+    protected void approachTarget(Entity target) {
+        Vector2 targetPosition = target.getPosition().vector();
+        walkTo(targetPosition);
+        if(getPosition().vector().distanceFrom(targetPosition) <= attackRange) {
+            stop();
+        }
+    }
+
+    @Override
+    public void update() {
+        if(target == null) {
+            detectTargets();
+        } else {
+            targetBehaviour(target);
+        }
+        super.update();
+    }
     
 }

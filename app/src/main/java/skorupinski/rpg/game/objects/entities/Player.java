@@ -3,14 +3,16 @@ package skorupinski.rpg.game.objects.entities;
 import skorupinski.rpg.core.events.keyboard.Key;
 import skorupinski.rpg.core.events.keyboard.Keyboard;
 import skorupinski.rpg.core.game.Game;
-import skorupinski.rpg.core.map.ChunkMap;
 import skorupinski.rpg.core.math.Vector2;
+import skorupinski.rpg.game.World;
 import skorupinski.rpg.game.objects.entities.utils.Statistics;
 
 public class Player extends Entity {
 
-    public Player(Vector2 position, Vector2 size, Statistics stats, ChunkMap map) {
-        super(position, size, stats, map);
+    private static final Statistics STATS = new Statistics();
+
+    public Player(Vector2 position, Vector2 size, World world) {
+        super(position, size, STATS, world);
     }
 
     private void handleUserInput() {
