@@ -1,9 +1,12 @@
 package skorupinski.rpg.game.objects.entities;
 
 import skorupinski.rpg.core.math.Vector2;
+import skorupinski.rpg.core.math.Vector2i;
 import skorupinski.rpg.core.utils.Direction4;
 import skorupinski.rpg.game.World;
 import skorupinski.rpg.game.objects.GameObject;
+import skorupinski.rpg.game.objects.entities.utils.Attack;
+import skorupinski.rpg.game.objects.entities.utils.Healthbar;
 import skorupinski.rpg.game.objects.entities.utils.Statistics;
 import skorupinski.rpg.game.utils.graphics.GraphicsType;
 
@@ -13,15 +16,20 @@ public abstract class Entity extends GameObject {
 
     protected Vector2 move = new Vector2();
 
-    protected float attackRange;
-
     private Vector2 walkingTarget = null;
+
+    protected Healthbar healthbar;
+
+    protected Attack currentAttack;
 
     public Entity(Vector2 position, Vector2 size, Statistics stats, World world) {
         super(position, size, world);
 
         this.stats = stats;
         objectState = GraphicsType.STANDING;
+
+        healthbar = new Healthbar(this, new Vector2i(50, 5));
+        addToRender(healthbar);
     }
 
     protected Direction4 calculateDirection(Vector2 move) {
@@ -61,9 +69,21 @@ public abstract class Entity extends GameObject {
         } else {
             objectState = GraphicsType.STANDING;
         }
+        healthbar.update();
     }
     
     public void setDirection(Direction4 direction) {
         this.direction = direction;
+    }
+
+    public Statistics getStats() {
+        return stats;
+    }
+
+    public void takeDamage(int damage) {
+        stats.hp -= damage;
+        if(stats.hp <= 0) {
+            world.kill(this);
+        }
     }
 }

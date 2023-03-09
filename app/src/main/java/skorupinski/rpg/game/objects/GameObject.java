@@ -1,6 +1,8 @@
 package skorupinski.rpg.game.objects;
 
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.List;
 
 import skorupinski.rpg.core.geometry.positions.Global;
 import skorupinski.rpg.core.geometry.shapes.Rectangle;
@@ -29,6 +31,8 @@ public abstract class GameObject extends Renderable<Global> {
     protected CoreGraphics currentGraphics = null;
 
     protected Direction4 direction;
+
+    private List<Renderable<Global>> subitemsToRender = new ArrayList<>();
 
     public GameObject(Vector2 position, Vector2 size, World world) {
         super(new Global(position));
@@ -72,6 +76,9 @@ public abstract class GameObject extends Renderable<Global> {
             Vector2 offsetPosition = position.substract(new Vector2(graphicsSize.x / 2, graphicsSize.y));
             painter.sprite(currentGraphics.getSprite(), offsetPosition.toVector2i());
         }
+        for(Renderable<Global> r : subitemsToRender) {
+            r.display(camera, painter);
+        }
     }
 
     public abstract void update();
@@ -79,6 +86,10 @@ public abstract class GameObject extends Renderable<Global> {
     public boolean collidesWith(GameObject object) {
         return object.getRectangle().collidesWith(getRectangle());
     } 
+
+    public float distanceFrom(GameObject object) {
+        return getPosition().vector().distanceFrom(object.getPosition().vector());
+    }
 
     @Override
     public Rectangle getRectangle() {
@@ -88,6 +99,22 @@ public abstract class GameObject extends Renderable<Global> {
     public void move(Vector2 distance) {
         position.set(position.vector().add(distance));
         
+    }
+
+    protected void addToRender(Renderable<Global> item) {
+        subitemsToRender.add(item);
+    }
+
+    public Vector2 getSize() {
+        return size;
+    }
+
+    public Direction4 getDirection() {
+        return direction;
+    }
+
+    public World getWorld() {
+        return world;
     }
     
 }

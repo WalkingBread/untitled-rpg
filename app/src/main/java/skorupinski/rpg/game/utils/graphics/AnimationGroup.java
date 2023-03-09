@@ -14,10 +14,10 @@ public class AnimationGroup {
     private HashMap<Direction4, Animation> animations;
 
     private Direction4[] directionOrder = {
-        Direction4.SOUTH,
-        Direction4.EAST,
+        Direction4.NORTH,
         Direction4.WEST,
-        Direction4.NORTH
+        Direction4.SOUTH,
+        Direction4.EAST
     };
 
     public AnimationGroup(Spritesheet spritesheet, int frameInterspace) {

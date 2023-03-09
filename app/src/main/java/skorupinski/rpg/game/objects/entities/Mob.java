@@ -25,6 +25,7 @@ public abstract class Mob extends Entity {
     }
 
     private void detectTargets() {
+        target = null;
         for(Entity en : world.getOtherEntities(this)) {
             if(en.getPosition().vector().distanceFrom(getPosition().vector()) < triggerRange) {
                 if(hostileTowards.contains(en.getClass())) {
@@ -37,19 +38,19 @@ public abstract class Mob extends Entity {
 
     protected abstract void targetBehaviour(Entity target);
 
-    protected void approachTarget(Entity target) {
+    protected void attackTarget(Entity target) {
         Vector2 targetPosition = target.getPosition().vector();
         walkTo(targetPosition);
-        if(getPosition().vector().distanceFrom(targetPosition) <= attackRange) {
+        if(getPosition().vector().distanceFrom(targetPosition) <= currentAttack.getRadius()) {
             stop();
+            currentAttack.execute(direction);
         }
     }
 
     @Override
     public void update() {
-        if(target == null) {
-            detectTargets();
-        } else {
+        detectTargets();
+        if(target != null) {
             targetBehaviour(target);
         }
         super.update();
